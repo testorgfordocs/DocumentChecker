@@ -16,24 +16,29 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
+      - name: Display file content before changes
+        run: cat .docs/${{ github.event.inputs.path }}
       
       - name: Update Document
         run: |
-          echo "Attempting to update document at ${{ github.workspace }}/.docs/${{ github.event.inputs.path }}"
-          sed -i 's/old_text/new_text/g' .docs/${{ github.event.inputs.path }}  # Use the correct path
+          sed -i "s/last_reviewed_on:.*/last_reviewed_on: 2024-05-02/" .docs/${{ github.event.inputs.path }}
       
+      - name: Display file content after changes
+        run: cat .docs/${{ github.event.inputs.path }}
+
       - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add .docs/${{ github.event.inputs.path }}  # Ensure path is correct here as well
-          git commit -m "Update review date for ${{ github.event.inputs.title }}"
-          
+          git add .docs/${{ github.event.inputs.path }}
+          git commit -m "Updated review date for ${{ github.event.inputs.title }}" || echo "No changes to commit."
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
           branch: "update-${{ github.run_id }}"
           commit-message: "Update review date for ${{ github.event.inputs.title }}"
           title: "Review Update: ${{ github.event.inputs.title }}"
-          body: "This PR updates the document as required."
+          body: "This PR updates the last reviewed date for the document."
           delete-branch: true
