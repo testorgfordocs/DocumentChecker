@@ -1,20 +1,15 @@
-const fs = require('fs');
+const fs = require('fs').promises;
 const yaml = require('yaml-front-matter');
 const axios = require('axios');
-const glob = require('glob');
 
 const DOCS_DIR = './docs/';  // Directory containing documents
 
 async function checkDocuments() {
-    // Use glob to find markdown files
-    glob(`${DOCS_DIR}*.md`, async (err, files) => {
-        if (err) {
-            console.error('Error finding files:', err);
-            return;
-        }
+    const files = await fs.readdir(DOCS_DIR);
 
-        for (const file of files) {
-            const content = fs.readFileSync(file, 'utf8');
+    for (const file of files) {
+        if (file.endsWith('.md')) {
+            const content = await fs.readFile(`${DOCS_DIR}${file}`, 'utf8');
             const frontMatter = yaml.loadFront(content);
 
             let reviewDueDate = new Date(frontMatter.last_reviewed_on);
@@ -30,7 +25,7 @@ async function checkDocuments() {
                 }).catch(console.error);
             }
         }
-    });
+    }
 }
 
 checkDocuments().catch(console.error);
