@@ -30,7 +30,8 @@ async function checkDocuments() {
                   
                     await axios.post('https://kind-petalite-gosling.glitch.me/review-request', {
                         path: file,
-                        title: frontMatter.title
+                        title: frontMatter.title,
+                        Expertise:frontMatter.Expertise
                     }).catch(console.error);
                 } else {
                     console.log(`Document doesn't need review: ${file}`);
