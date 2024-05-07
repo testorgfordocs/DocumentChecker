@@ -12,11 +12,17 @@ async function checkDocuments() {
 
         for (const file of files) {
             if (file.endsWith('.md')) {
+                console.log(`Processing file: ${file}`);
+
                 const content = await fs.readFile(path.join(DOCS_DIR, file), 'utf8');
                 const frontMatter = yaml.loadFront(content);
 
+                console.log(`Front matter for ${file}:`, frontMatter);
+
                 let reviewDueDate = new Date(frontMatter.last_reviewed_on);
                 reviewDueDate.setMonth(reviewDueDate.getMonth() + parseInt(frontMatter.review_cycle));
+
+                console.log(`Review due date for ${file}:`, reviewDueDate);
 
                 if (new Date() >= reviewDueDate) {
                     console.log(`Document needs review: ${file}`);
@@ -26,6 +32,8 @@ async function checkDocuments() {
                         path: file,
                         title: frontMatter.title
                     }).catch(console.error);
+                } else {
+                    console.log(`Document doesn't need review: ${file}`);
                 }
             }
         }
