@@ -43,4 +43,4 @@ jobs:
           body: "This PR updates the last reviewed date for the document."
           delete-branch: true
           draft: false  
-          token: ${{ secrets.TOKEN_GITHUB }}
+       
