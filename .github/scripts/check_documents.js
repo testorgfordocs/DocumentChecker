@@ -1,9 +1,9 @@
 const fs = require('fs').promises;
 const yaml = require('yaml-front-matter');
 const axios = require('axios');
-const path = require('path'); // Import the path module to handle file paths
+const path = require('path'); /
 
-// Construct the correct path to the '.docs' directory
+
 const DOCS_DIR = path.join(__dirname, '..', '..', '.docs');
 
 async function checkDocuments() {
@@ -27,7 +27,7 @@ async function checkDocuments() {
                 if (new Date() >= reviewDueDate) {
                     console.log(`Document needs review: ${file}`);
                     
-                    // Send a POST request to your Glitch webhook URL
+                  
                     await axios.post('https://kind-petalite-gosling.glitch.me/review-request', {
                         path: file,
                         title: frontMatter.title
