@@ -22,7 +22,7 @@ async function checkDocuments() {
                     console.log(`Document needs review: ${file}`);
                     
                     // Send a POST request to your Glitch webhook URL
-                    await axios.post(process.env.GLITCH_WEBHOOK_URL, {
+                    await axios.post('https://kind-petalite-gosling.glitch.me/review-request', {
                         path: file,
                         title: frontMatter.title
                     }).catch(console.error);
