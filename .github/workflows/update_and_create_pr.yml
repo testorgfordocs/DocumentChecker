@@ -38,20 +38,22 @@ jobs:
           git commit -m "Updated review date for ${{ github.event.inputs.title }}" || echo "No changes to commit."
 
       - name: Create Pull Request
+        id: create-pr
         uses: peter-evans/create-pull-request@v3
         with:
-          token: ${{ secrets.PAT_TOKEN }} 
+          token: ${{ secrets.PAT_TOKEN }}
           branch: "update-${{ github.run_id }}"
           commit-message: "Update review date for ${{ github.event.inputs.title }}"
           title: "Review Update: ${{ github.event.inputs.title }}"
           body: "This PR updates the last reviewed date for the document."
           delete-branch: true
           draft: false
+
       
       - name: Check PR State
         run: |
-          curl -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}
+         curl -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \ https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.create-pr.outputs.pull-request-number }}
+
 
 
       - name: Wait before merging
