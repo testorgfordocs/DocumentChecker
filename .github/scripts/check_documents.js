@@ -1,7 +1,7 @@
 const fs = require('fs').promises;
 const yaml = require('yaml-front-matter');
 const axios = require('axios');
-const path = require('path'); /
+const path = require('path'); 
 
 
 const DOCS_DIR = path.join(__dirname, '..', '..', '.docs');
