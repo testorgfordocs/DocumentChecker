@@ -52,7 +52,8 @@ jobs:
       
       - name: Check PR State
         run: |
-         curl -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \ https://api.github.com/repos/${{ github.repository }}/pulls/${{ steps.create-pr.outputs.pull-request-number }}
+         curl -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
+          "https://api.github.com/repos/drewhinksonn/DocumentChecker/pulls/${{ env.PULL_REQUEST_NUMBER }}"
 
 
 
