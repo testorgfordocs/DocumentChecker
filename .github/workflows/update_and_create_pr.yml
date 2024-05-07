@@ -17,12 +17,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         with:
-          token: ${{ secrets.PAT_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }} 
 
+      - name: Display file content before changes
+        run: cat .docs/${{ github.event.inputs.path }}
+    
       - name: Update Document
         run: |
           DATE=$(date +%Y-%m-%d)
           sed -i "s/last_reviewed_on:.*/last_reviewed_on: $DATE/" .docs/${{ github.event.inputs.path }}
+
+      - name: Display file content after changes
+        run: cat .docs/${{ github.event.inputs.path }}
 
       - name: Commit changes
         run: |
@@ -34,12 +40,14 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
+          token: ${{ secrets.PAT_TOKEN}} 
           branch: "update-${{ github.run_id }}"
           commit-message: "Update review date for ${{ github.event.inputs.title }}"
           title: "Review Update: ${{ github.event.inputs.title }}"
           body: "This PR updates the last reviewed date for the document."
           delete-branch: true
           draft: false
+
 
       - name: Auto Merge
         uses: pascalgn/automerge-action@v0.14.3
