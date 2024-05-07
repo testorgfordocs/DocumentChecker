@@ -50,25 +50,7 @@ jobs:
           draft: false
 
       
-      - name: Wait for PR to become mergeable
-        run: |
-         ATTEMPTS=0
-          MAX_ATTEMPTS=10
-          while : ; do
-            PR_STATE=$(curl -s -H "Authorization: token ${{ secrets.PAT_TOKEN }}" \
-            "https://api.github.com/repos/drewhinksonn/DocumentChecker/pulls/10" | jq -r '.mergeable_state')
-            echo "Mergeable state: $PR_STATE"
-            if [[ "$PR_STATE" == "clean" ]]; then
-            echo "PR is ready to be merged."
-            break
-            fi
-          if [[ "$ATTEMPTS" -ge "$MAX_ATTEMPTS" ]]; then
-            echo "Maximum attempts reached, PR may not be mergeable."
-            break
-            fi
-          sleep 30  # Wait for 30 seconds before trying again
-          ((ATTEMPTS++))
-          done
+    
 
 
       - name: Auto Merge
