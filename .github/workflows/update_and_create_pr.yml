@@ -42,4 +42,5 @@ jobs:
           title: "Review Update: ${{ github.event.inputs.title }}"
           body: "This PR updates the last reviewed date for the document."
           delete-branch: true
-          draft: false  # Ensure it's not creating a draft PR
+          draft: false  
+          token: ${{ secrets.GITHUB_TOKEN }}
