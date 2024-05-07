@@ -5,7 +5,7 @@ on:
     inputs:
       path:
         required: true
-        description: 'File path of the document to update'
+        description: 'Relative file path of the document to update from the repository root'
       title:
         required: true
         description: 'Title of the document'
@@ -19,14 +19,14 @@ jobs:
       
       - name: Update Document
         run: |
-          echo "Attempting to update document at ${{ github.workspace }}/${{ github.event.inputs.path }}"
-          sed -i 's/old_text/new_text/g' ${{ github.workspace }}/${{ github.event.inputs.path }}  # Adjusted path
-          
+          echo "Attempting to update document at ${{ github.workspace }}/.docs/${{ github.event.inputs.path }}"
+          sed -i 's/old_text/new_text/g' .docs/${{ github.event.inputs.path }}  # Use the correct path
+      
       - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add ${{ github.workspace }}/${{ github.event.inputs.path }}
+          git add .docs/${{ github.event.inputs.path }}  # Ensure path is correct here as well
           git commit -m "Update review date for ${{ github.event.inputs.title }}"
           
       - name: Create Pull Request
