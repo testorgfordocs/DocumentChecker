@@ -25,7 +25,8 @@ jobs:
     
       - name: Update Document
         run: |
-          sed -i "s/last_reviewed_on:.*/last_reviewed_on: 2024-05-02/" .docs/${{ github.event.inputs.path }}
+          DATE=$(date +%Y-%m-%d)
+          sed -i "s/last_reviewed_on:.*/last_reviewed_on: $DATE/" .docs/${{ github.event.inputs.path }}
 
       - name: Display file content after changes
         run: cat .docs/${{ github.event.inputs.path }}
