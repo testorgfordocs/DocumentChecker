@@ -1,6 +1,6 @@
 ---
 title: "API Guidelines"
-last_reviewed_on: 2022-05-01
+last_reviewed_on: 2024-06-13
 review_cycle: 1
 Expertise: "Technical1222"
 ---
